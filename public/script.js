@@ -12,6 +12,14 @@ document.addEventListener("DOMContentLoaded", () => {
     // Initialize socket.io connection
     const socket = io();
   
+    // Ensure the start button exists
+    if (!startChatButton) {
+      console.log("Start Chat button not found");
+      return;
+    } else {
+      console.log("Start Chat button found");
+    }
+  
     // Handle "Start Chat" button click
     startChatButton.addEventListener("click", () => {
       const username = usernameInput.value.trim();
@@ -34,14 +42,15 @@ document.addEventListener("DOMContentLoaded", () => {
       sendMessageButton.addEventListener("click", () => {
         const message = messageInput.value.trim();
         if (message === "") return;
-        
+  
         // Emit message to server
         socket.emit("chatMessage", `${username}: ${message}`);
-        
+  
         // Clear message input field
         messageInput.value = "";
       });
     });
+  });  
   
     // Handle incoming chat messages
     socket.on("chatMessage", (message) => {
